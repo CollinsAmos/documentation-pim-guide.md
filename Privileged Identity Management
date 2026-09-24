@@ -1,0 +1,127 @@
+# Lab 3: Privileged Identity Management (PIM)
+
+## Objective
+
+Move an admin role from permanent/standing access to just-in-time, approval-gated access using Microsoft Entra Privileged Identity Management (PIM).
+
+---
+
+## Prerequisites
+
+- Microsoft Entra ID P2 or Microsoft 365 E5 license
+- P2/E5 trial activated and assigned to your account
+- A second admin account (for self-modification)
+
+---
+
+## Part A: Configure PIM Role Settings
+
+### Step 1: Navigate to PIM
+
+**Path:** `Identity Governance → Privileged Identity Management`
+
+### Step 2: Configure Role Settings
+
+**Path:** `PIM → Microsoft Entra roles → Roles → Global Administrator → Role settings`
+
+| Setting | Value |
+|---------|-------|
+| Activation maximum duration (hours) | 4 hours |
+| On activation, require | Azure MFA |
+| Require justification on activation | Yes |
+| Require approval to activate | Yes |
+| Approvers | Collins Amos |
+| Allow permanent active assignment | No |
+| Expire active assignments after | 30 days |
+
+### Step 3: Save Settings
+
+Click **Update**.
+
+---
+
+## Part B: Convert Permanent to Eligible
+
+### Step 1: Navigate to Assignments
+
+**Path:** `PIM → Microsoft Entra roles → Assignments`
+
+### Step 2: Change Assignment Type
+
+- Select the role assignment
+- Change **Assignment type** from **Active** to **Eligible**
+- Set **End time** (e.g., 30 days)
+
+> Note: Requires a second admin for self-modification.
+
+---
+
+## Part C: Test the Activation Cycle
+
+### Step 1: View Eligible Assignments
+
+**Path:** `PIM → My roles → Eligible assignments`
+
+### Step 2: Activate the Role
+
+1. Click **Activate**
+2. Provide justification
+3. Complete MFA
+4. Submit request
+
+### Step 3: Approve the Request
+
+1. Log in as approver
+2. Go to **PIM → Approve requests**
+3. Approve
+
+### Step 4: Verify Active Status
+
+**Path:** `PIM → My roles → Active assignments`
+
+The role now shows an **expiry countdown** instead of permanent.
+
+---
+
+## 📸 Screenshot Evidence
+
+![PIM Role Settings](screenshots/17-pim-role-settings.png)
+
+![Eligible Assignments](screenshots/18-pim-eligible-assignments.png)
+
+![Role Settings Configuration](screenshots/19-pim-settings-config.png)
+
+![PIM Activation](screenshots/20-pim-activation.png)
+
+---
+
+## ✅ Result
+
+- PIM role settings configured
+- Activation requires MFA, justification, and approval
+- Role converted from Active to Eligible
+- Full activation cycle tested
+- Role shows expiry countdown (not permanent)
+
+---
+
+## 💡 Key Takeaways
+
+- **Eligible assignments** require activation; **Active** assignments are always on
+- **Just-in-Time access** minimizes standing admin privileges
+- **Approval workflows** enforce separation of duties
+- **MFA + justification** create an audit trail
+- **Time-bound access** limits exposure window
+
+---
+
+## 🔗 Active vs Eligible
+
+| Aspect | Active | Eligible |
+|--------|--------|----------|
+| Access | Immediate | Requires activation |
+| Duration | Permanent or time-bound | Time-bound after activation |
+| MFA | Not required | Configurable |
+| Justification | No | Yes |
+| Approval | No | Configurable |
+| Security Risk | Higher | Lower |
